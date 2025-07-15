@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DOM Dinâmico</title>
+</head>
+<body>
+<script>
+    // Cria elementos
+    const input = document.createElement("input");
+    const btnAdd = document.createElement("button");
+    const btnRemove = document.createElement("button");
+    let lista;
+
+    btnAdd.textContent = "Adicionar";
+    btnRemove.textContent = "Excluir";
+    btnRemove.disabled = true;
+
+    // Adiciona elementos ao body
+    document.body.appendChild(input);
+    document.body.appendChild(btnAdd);
+    document.body.appendChild(btnRemove);
+
+    const itens = [];
+
+    btnAdd.addEventListener("click", () => {
+        const valor = input.value.trim();
+        if (valor && !itens.includes(valor)) {
+            itens.push(valor);
+
+            if (!lista) {
+                lista = document.createElement("ul");
+                document.body.appendChild(lista);
+            }
+
+            const li = document.createElement("li");
+            li.textContent = valor;
+            lista.appendChild(li);
+            input.value = "";
+            btnRemove.disabled = false;
+        }
+    });
+
+    btnRemove.addEventListener("click", () => {
+        if (lista && lista.lastChild) {
+            lista.removeChild(lista.lastChild);
+            itens.pop();
+            if (itens.length === 0) {
+                btnRemove.disabled = true;
+            }
+        }
+    });
+</script>
+</body>
+</html>
